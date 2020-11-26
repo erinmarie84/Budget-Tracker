@@ -12,7 +12,7 @@ const STATIC_CACHE = 'static-cache-v1';
 const DATA_CACHE = 'data-cache-v1';
 self.addEventListener("install", function (evt) {
     evt.waitUntil(
-        caches.open(CACHE_NAME).then(cache => {
+        caches.open(STATIC_CACHE).then(cache => {
             console.log('Your files were pre-cached successfully!');
             return cache.addAll(FILES_TO_CACHE);
         })
@@ -38,7 +38,7 @@ self.addEventListener('activate', (evt) => {
 self.addEventListener('fetch', function (evt) {
     if (evt.request.url.includes('/api/')) {
         evt.respondWith(
-            caches.open(DATA_CACHE_NAME).then(cache => {
+            caches.open(DATA_CACHE).then(cache => {
                 return fetch(evt.request)
                     .then(response => {
                         if (response.status === 200) {
